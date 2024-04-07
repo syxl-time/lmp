@@ -64,7 +64,7 @@ int BPF_KPROBE(finish_task_switch, struct task_struct *prev) {
 	e->nvcsw = BPF_CORE_READ(prev, nvcsw);
 	e->nivcsw = BPF_CORE_READ(prev, nivcsw);
 
-	rss = BPF_CORE_READ(prev, mm, rss_stat);
+	rss = *BPF_CORE_READ(prev, mm, rss_stat);
 	t = (long long *)(rss.count);
 	e->rssfile = *t;
 	e->rssanon = *(t + 1);
