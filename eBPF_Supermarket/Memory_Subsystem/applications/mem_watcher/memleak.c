@@ -26,8 +26,6 @@
 #include "memleak.skel.h"
 #include "mem_watcher.h"
 
-#include "blazesym.h"
-
 int main(int argc, char **argv) {
     
 }
