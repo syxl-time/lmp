@@ -11,7 +11,6 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
-#include <linux/mm_types.h>
 #include "mem_watcher.h"
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
@@ -30,6 +29,9 @@ struct {
 
 pid_t user_pid = 0;
 
+struct mm_rss_stat {
+	atomic_long_t count[4];
+};
 
 SEC("kprobe/finish_task_switch")
 int BPF_KPROBE(finish_task_switch, struct task_struct *prev) {
