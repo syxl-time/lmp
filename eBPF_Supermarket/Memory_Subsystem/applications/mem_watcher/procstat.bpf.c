@@ -29,14 +29,10 @@ struct {
 
 pid_t user_pid = 0;
 
-struct mm_rss_stat {
-	atomic_long_t count[4];
-};
-
 SEC("kprobe/finish_task_switch")
 int BPF_KPROBE(finish_task_switch, struct task_struct *prev) {
 	struct procstat_event *e;
-	struct mm_rss_stat rss = {};
+	struct percpu_counter rss = {};
 	struct mm_struct *mms;
 	long long *t;
 	pid_t pid = bpf_get_current_pid_tgid() >> 32;
